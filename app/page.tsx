@@ -24,6 +24,7 @@ export default function Home() {
         <div className="nav-links">
           <a href="#about">About</a>
           <a href="#tokenomics">Tokenomics</a>
+          <a href="#staking">Staking</a>
           <a href="#roadmap">Roadmap</a>
           <a href="#community">Community</a>
         </div>
@@ -69,6 +70,13 @@ export default function Home() {
 
         <div className="hero-art">
           <div className="art-circle" />
+          <div className="cookie-particles" aria-hidden="true">
+            <span className="cookie-particle particle-one">🍪</span>
+            <span className="cookie-particle particle-two">🍪</span>
+            <span className="cookie-particle particle-three">🍪</span>
+            <span className="cookie-particle particle-four">🍪</span>
+            <span className="cookie-particle particle-five">✦</span>
+          </div>
           <div className="floating-label label-top">100% COOKIE ENERGY</div>
           <div className="logo-card">
             <Image
@@ -109,9 +117,13 @@ export default function Home() {
           <span>A WHOLE CULTURE.</span>
         </h2>
         <p>
-          BASECUIT is bringing a fresh batch of fun to the Base ecosystem.
-          Built around community, creativity, and the power of meme culture.
-          This is where good vibes meet the blockchain.
+          BASECUIT is a meme coin project built on the Base blockchain,
+          inspired by the fun and creativity of cookie culture.
+          More than just a token, BASECUIT brings together memes,
+          creativity, and community spirit. Our vision is to create
+          a fun identity within the Base ecosystem where people can
+          connect, share ideas, and enjoy the journey together.
+          Cookies, memes, and community — the BASECUIT spirit.
         </p>
       </section>
 
@@ -129,6 +141,42 @@ export default function Home() {
           <strong>BASE</strong>
           <span>CONTRACT ADDRESS</span>
           <strong className="pending">COMING SOON</strong>
+        </div>
+      </section>
+
+      <section id="staking" className="content-section alternate">
+        <div className="section-tag">03 — BASECUIT STAKING</div>
+        <h2>
+          STAKE YOUR BASECUIT.
+          <br />
+          <span>REWARDS ARE BAKING.</span>
+        </h2>
+        <p>
+          A new way to be part of the BASECUIT ecosystem.
+          Staking features and reward details are currently in development.
+        </p>
+
+        <div className="roadmap-grid staking-grid">
+          <div className="roadmap-card staking-card">
+            <span>PROTOCOL FEES</span>
+            <h3>Transaction Rewards</h3>
+            <p>Potential rewards from eligible protocol transaction fees.</p>
+          </div>
+          <div className="roadmap-card staking-card">
+            <span>PARTNER REWARDS</span>
+            <h3>Ecosystem Bonuses</h3>
+            <p>Potential bonus tokens from future ecosystem partners.</p>
+          </div>
+          <div className="roadmap-card staking-card">
+            <span>STAKING BONUS</span>
+            <h3>Additional Rewards</h3>
+            <p>Additional BASECUIT rewards planned for the staking program.</p>
+          </div>
+        </div>
+
+        <div className="staking-status">
+          <span className="live-dot" />
+          STAKING — COMING SOON
         </div>
       </section>
 
