@@ -27,6 +27,7 @@ export default function Home() {
           <a href="#staking">Staking</a>
           <a href="#roadmap">Roadmap</a>
           <a href="#community">Community</a>
+          <a href="/memes">Meme Hub</a>
         </div>
 
         <a href="#community" className="nav-button">

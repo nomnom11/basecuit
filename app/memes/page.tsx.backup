@@ -1,0 +1,345 @@
+"use client";
+
+import { useRef, useState } from "react";
+
+type Meme = {
+  id: number;
+  title: string;
+  image: string;
+  votes: number;
+};
+
+const templates = [
+  { name: "Cookie Power", emoji: "🍪", text: "COOKIE POWER" },
+  { name: "Built Different", emoji: "😎", text: "BUILT DIFFERENT" },
+  { name: "Base Gang", emoji: "🔵", text: "BASE GANG" },
+  { name: "Stay Crunchy", emoji: "✨", text: "STAY CRUNCHY" },
+];
+
+export default function MemesPage() {
+  const [memes, setMemes] = useState<Meme[]>([]);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [topText, setTopText] = useState("WHEN YOU FIND BASECUIT");
+  const [bottomText, setBottomText] = useState("BUILT ON BASE 🍪");
+  const [title, setTitle] = useState("");
+  const [votes, setVotes] = useState<number[]>([]);
+  const fileInput = useRef<HTMLInputElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  function handleImage(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file.");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image size must be under 5 MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => setSelectedImage(String(reader.result));
+    reader.readAsDataURL(file);
+  }
+
+  function drawMeme() {
+    const canvas = canvasRef.current;
+    if (!canvas || !selectedImage) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const image = new window.Image();
+    image.onload = () => {
+      const size = 900;
+      canvas.width = size;
+      canvas.height = size;
+
+      const scale = Math.max(size / image.width, size / image.height);
+      const width = image.width * scale;
+      const height = image.height * scale;
+
+      ctx.fillStyle = "#102747";
+      ctx.fillRect(0, 0, size, size);
+      ctx.drawImage(
+        image,
+        (size - width) / 2,
+        (size - height) / 2,
+        width,
+        height
+      );
+
+      ctx.textAlign = "center";
+      ctx.lineJoin = "round";
+      ctx.font = "900 54px Arial";
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = 10;
+      ctx.fillStyle = "#ffffff";
+
+      if (topText.trim()) {
+        ctx.strokeText(topText.toUpperCase(), size / 2, 90, 820);
+        ctx.fillText(topText.toUpperCase(), size / 2, 90, 820);
+      }
+
+      if (bottomText.trim()) {
+        ctx.strokeText(bottomText.toUpperCase(), size / 2, 820, 820);
+        ctx.fillText(bottomText.toUpperCase(), size / 2, 820, 820);
+      }
+
+      const link = document.createElement("a");
+      link.download = "basecuit-meme.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    };
+
+    image.src = selectedImage;
+  }
+
+  function publishMeme() {
+    if (!selectedImage) {
+      alert("Please upload an image first.");
+      return;
+    }
+
+    if (!title.trim()) {
+      alert("Please enter a meme title.");
+      return;
+    }
+
+    setMemes((current) => [
+      {
+        id: Date.now(),
+        title: title.trim(),
+        image: selectedImage,
+        votes: 0,
+      },
+      ...current,
+    ]);
+
+    setTitle("");
+    setSelectedImage("");
+    setTopText("WHEN YOU FIND BASECUIT");
+    setBottomText("BUILT ON BASE 🍪");
+    alert("Your meme has been added to this local gallery!");
+  }
+
+  function vote(id: number) {
+    if (votes.includes(id)) return;
+
+    setVotes((current) => [...current, id]);
+    setMemes((current) =>
+      current.map((meme) =>
+        meme.id === id ? { ...meme, votes: meme.votes + 1 } : meme
+      )
+    );
+  }
+
+  return (
+    <main className="meme-page">
+      <nav className="navbar meme-navbar">
+        <a href="/" className="brand">
+          <img src="/logo.png" alt="BASECUIT Logo" width="46" height="46" />
+          <span>BASECUIT</span>
+        </a>
+
+        <div className="nav-links">
+          <a href="/">Home</a>
+          <a href="#gallery">Meme Gallery</a>
+          <a href="#create">Create Meme</a>
+        </div>
+
+        <a href="#create" className="nav-button">
+          Make a Meme ↗
+        </a>
+      </nav>
+
+      <section className="meme-hero">
+        <div className="meme-hero-badge">🍪 THE OFFICIAL BASECUIT MEME HUB</div>
+        <h1>
+          THE HOME OF
+          <br />
+          <span>BASECUIT MEMES.</span>
+        </h1>
+        <p>
+          Create, share, and celebrate the cookie culture.
+          One meme at a time.
+        </p>
+        <a href="#create" className="primary-button">
+          CREATE YOUR MEME ↗
+        </a>
+        <div className="meme-hero-cookie">🍪</div>
+      </section>
+
+      <section className="meme-content" id="gallery">
+        <div className="meme-section-heading">
+          <div>
+            <span className="section-tag">01 — COMMUNITY CREATIONS</span>
+            <h2>THE MEME GALLERY.</h2>
+            <p>Fresh memes from the BASECUIT community.</p>
+          </div>
+          <span className="meme-count">{memes.length} COMMUNITY MEMES</span>
+        </div>
+
+        <div className="meme-grid">
+          {memes.length === 0 ? (
+            <div className="meme-empty">
+              <span>🍪</span>
+              <h3>The gallery is waiting for its first batch.</h3>
+              <p>Be the first to create and add a BASECUIT meme.</p>
+              <a href="#create" className="secondary-button">
+                CREATE THE FIRST MEME
+              </a>
+            </div>
+          ) : (
+            memes.map((meme) => (
+              <article className="meme-card" key={meme.id}>
+                <img src={meme.image} alt={meme.title} />
+                <div className="meme-card-info">
+                  <strong>{meme.title}</strong>
+                  <button
+                    onClick={() => vote(meme.id)}
+                    disabled={votes.includes(meme.id)}
+                    className="vote-button"
+                  >
+                    {votes.includes(meme.id) ? "♥ VOTED" : "♡ VOTE"} · {meme.votes}
+                  </button>
+                </div>
+              </article>
+            ))
+          )}
+        </div>
+      </section>
+
+      <section className="meme-content template-section">
+        <div className="section-tag">02 — MEME INSPIRATION</div>
+        <h2>PICK YOUR COOKIE ENERGY.</h2>
+        <div className="template-grid">
+          {templates.map((template) => (
+            <button
+              className="template-card"
+              key={template.name}
+              onClick={() => {
+                setTopText(template.text);
+                document.getElementById("create")?.scrollIntoView({
+                  behavior: "smooth",
+                });
+              }}
+            >
+              <span>{template.emoji}</span>
+              <strong>{template.name}</strong>
+              <small>USE THIS IDEA ↗</small>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="meme-content creator-section" id="create">
+        <div className="section-tag">03 — YOUR CREATIVE STUDIO</div>
+        <h2>CREATE YOUR OWN MEME.</h2>
+        <p className="creator-intro">
+          Upload an image, add your captions, and make something crunchy.
+        </p>
+
+        <div className="creator-layout">
+          <div className="creator-controls">
+            <label className="upload-area">
+              <span>＋</span>
+              <strong>UPLOAD YOUR IMAGE</strong>
+              <small>PNG, JPG or WEBP · Max 5 MB</small>
+              <input
+                ref={fileInput}
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                onChange={handleImage}
+                hidden
+              />
+            </label>
+
+            <label className="meme-label">
+              TOP TEXT
+              <input
+                value={topText}
+                onChange={(event) => setTopText(event.target.value)}
+                maxLength={80}
+                placeholder="Enter top caption..."
+              />
+            </label>
+
+            <label className="meme-label">
+              BOTTOM TEXT
+              <input
+                value={bottomText}
+                onChange={(event) => setBottomText(event.target.value)}
+                maxLength={80}
+                placeholder="Enter bottom caption..."
+              />
+            </label>
+
+            <label className="meme-label">
+              MEME TITLE
+              <input
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+                maxLength={50}
+                placeholder="Give your meme a title..."
+              />
+            </label>
+
+            <button
+              className="meme-action-button"
+              onClick={drawMeme}
+              disabled={!selectedImage}
+            >
+              DOWNLOAD MEME ↓
+            </button>
+
+            <button
+              className="meme-publish-button"
+              onClick={publishMeme}
+              disabled={!selectedImage || !title.trim()}
+            >
+              ADD TO GALLERY ↗
+            </button>
+          </div>
+
+          <div className="meme-preview">
+            {selectedImage ? (
+              <div className="meme-preview-image">
+                <img src={selectedImage} alt="Your meme preview" />
+                <span className="preview-top">{topText}</span>
+                <span className="preview-bottom">{bottomText}</span>
+              </div>
+            ) : (
+              <div className="meme-preview-empty">
+                <span>🍪</span>
+                <strong>YOUR MEME PREVIEW</strong>
+                <small>Upload an image to get started.</small>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <canvas ref={canvasRef} className="meme-hidden-canvas" />
+      </section>
+
+      <section className="meme-bottom-cta">
+        <span>🍪</span>
+        <h2>KEEP IT FUN. KEEP IT BASECUIT.</h2>
+        <p>Built on Base. Baked for fun.</p>
+        <a href="/" className="secondary-button">← BACK TO BASECUIT HOME</a>
+      </section>
+
+      <footer className="footer">
+        <a href="/" className="brand">
+          <img src="/logo.png" alt="BASECUIT" width="36" height="36" />
+          <span>BASECUIT</span>
+        </a>
+        <span>BUILT ON BASE. BAKED FOR FUN. ✳</span>
+        <span>© 2026 BASECUIT</span>
+      </footer>
+    </main>
+  );
+}
