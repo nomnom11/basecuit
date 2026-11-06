@@ -23,16 +23,40 @@ export default function Home() {
 
         <div className="nav-links">
           <a href="#about">About</a>
+            <a href="/whitepaper">Whitepaper</a>
           <a href="#tokenomics">Tokenomics</a>
           <a href="#staking">Staking</a>
           <a href="#roadmap">Roadmap</a>
           <a href="#community">Community</a>
-          <a href="/memes">Meme Hub</a>
+          <a href="/whitepaper">Whitepaper</a>
+        <a href="/memes">Meme Hub</a>
+          <a href="/leaderboard">Leaderboard</a>
+          <a href="/game">Play Game</a>
+          <a href="/player">Player Profile</a>
         </div>
 
         <a href="#community" className="nav-button">
           Join Community ↗
         </a>
+
+        <details className="mobile-menu">
+          <summary aria-label="Open navigation menu">
+            <span></span><span></span><span></span>
+          </summary>
+          <div className="mobile-menu-panel">
+            <a href="#about">About</a>
+            <a href="/whitepaper">Whitepaper</a>
+            <a href="#tokenomics">Tokenomics</a>
+            <a href="#staking">Staking</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#community">Community</a>
+            <a href="/memes">Meme Hub</a>
+            <a href="/leaderboard">Leaderboard</a>
+            <a href="/game">Play Game</a>
+            <a href="/player">Player Profile</a>
+            <a href="#community">Join Community ↗</a>
+          </div>
+        </details>
       </nav>
 
       <section className="hero">
@@ -199,6 +223,38 @@ export default function Home() {
             <span>03 / BIGGER BATCH</span>
             <h3>The Next Chapter</h3>
             <p>More ideas and new experiences for the ecosystem.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="arcade" className="content-section alternate">
+        <div className="section-tag">04 — THE BASECUIT ARCADE</div>
+        <h2>PLAY. EARN. CLIMB THE RANKS.</h2>
+        <p className="section-description">
+          Take a break, click some cookies, and compete with the BASECUIT community.
+        </p>
+
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <div className="rounded-3xl border border-[#ffe18a]/30 bg-[#102b50] p-8 text-center shadow-xl">
+            <div className="text-6xl">🍪</div>
+            <h3 className="mt-5 text-2xl font-black">COOKIE CLICKER</h3>
+            <p className="mt-3 text-sm text-[#a9b9d1]">
+              Click cookies, collect points, unlock upgrades, and build your score.
+            </p>
+            <a href="/game" className="mt-7 inline-block rounded-xl bg-[#ffe18a] px-7 py-3 font-black text-[#12264a] transition hover:-translate-y-1">
+              PLAY NOW ↗
+            </a>
+          </div>
+
+          <div className="rounded-3xl border border-[#ffe18a]/30 bg-[#102b50] p-8 text-center shadow-xl">
+            <div className="text-6xl">🏆</div>
+            <h3 className="mt-5 text-2xl font-black">GLOBAL LEADERBOARD</h3>
+            <p className="mt-3 text-sm text-[#a9b9d1]">
+              See the top players and find your place in the BASECUIT rankings.
+            </p>
+            <a href="/leaderboard" className="mt-7 inline-block rounded-xl bg-[#ffe18a] px-7 py-3 font-black text-[#12264a] transition hover:-translate-y-1">
+              VIEW RANKINGS ↗
+            </a>
           </div>
         </div>
       </section>
