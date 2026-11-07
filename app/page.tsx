@@ -1,5 +1,6 @@
 
 import Image from "next/image";
+import TokenInfo from "./components/TokenInfo";
 
 const socials = [
   { name: "Twitter / X", href: "https://x.com/nix_Bitcoin" },
@@ -159,14 +160,7 @@ export default function Home() {
           Every great cookie starts with a recipe. Official token details
           will be announced here.
         </p>
-        <div className="token-card">
-          <span>TOKEN NAME</span>
-          <strong>BASECUIT</strong>
-          <span>NETWORK</span>
-          <strong>BASE</strong>
-          <span>CONTRACT ADDRESS</span>
-          <strong className="pending">COMING SOON</strong>
-        </div>
+        <TokenInfo />
       </section>
 
       <section id="staking" className="content-section alternate">

@@ -1879,3 +1879,52 @@ a {
 .navbar > .mobile-menu {
   display: block !important;
 }
+
+/* BASECUIT official token information */
+.token-address {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.token-address code {
+  color: var(--yellow);
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.copy-ca-button,
+.buy-openlaunch-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.copy-ca-button {
+  color: white;
+  background: #ffffff12;
+  border: 1px solid #ffffff30;
+}
+
+.buy-openlaunch-button {
+  grid-column: 1 / -1;
+  color: #071a35;
+  background: var(--yellow);
+  text-decoration: none;
+}
+
+.copy-ca-button:hover,
+.buy-openlaunch-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
